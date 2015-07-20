@@ -1,4 +1,4 @@
-# Anonymous mini twitter service
+# Challenge — Anonymous mini twitter service
 
 This is a performance-problematic service that exposes an API with very basic twitter-like operations.
 
@@ -8,8 +8,34 @@ Features:
 - Tweets should be limited to 140 characters.
 - Tweets may be erased from the server after an arbitrary amount of time.
 
+-----------------------
 
-# Setup
+# The problems
+
+There are several performance problems in this application.
+Although every test shoulb be passing, there are no benchmark written yet and
+some usage scenarios might not be covered in the tests.
+
+1. Load testing — Create benchmarks
+    - Script load generation for every endpoint
+    - Measure response times; average and max
+3. Monitor resources:
+    - Memory usage
+    - CPU usage
+    - Event loop delays
+    - GC activity
+    - Network bandwith used (and not just client-server)
+
+Focus on using the techniques and tools you learned about instead of trying
+to read the codebase, some parts of it were actually written with the purpose
+of discouraging your from reading the code.
+
+As you find issues, solve them, re-run the tests to ensure the app is still working
+according to the requirements and re-run the benchmarks to compare performance.
+
+-----------------------
+
+# Setup for development
 
 ### Prerequisites
 
@@ -19,6 +45,14 @@ To install dependencies, run
 
 ```bash
 $ npm install
+```
+
+### Run tests
+
+Run:
+
+```bash
+$ npm test
 ```
 
 ### Start
@@ -32,14 +66,6 @@ $ npm start
 Service should be up on port 7070.
 Use the environment variable `PORT` to specify another port.
 
-### Run tests
-
-Run:
-
-```bash
-$ npm test
-```
-
 ### Deploy
 
 Run:
@@ -48,7 +74,9 @@ Run:
 $ npm run-script deploy root@<your-instance-ip>
 ```
 
-# API
+-----------------------
+
+# The API
 
 ### GET /statuses
 
