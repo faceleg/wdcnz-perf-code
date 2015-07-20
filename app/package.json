@@ -7,7 +7,7 @@
   "scripts": {
     "start": "bin/server.js",
     "test": "mocha",
-    "deploy": "bora -r 'service app restart' -b 'npm i' -i .gitignore"
+    "deploy": "bora -r 'stop app; start app' -b 'npm i' -i .gitignore -S '/root/app'"
   },
   "author": "",
   "devDependencies": {
