@@ -13,23 +13,7 @@ var ops = {
   '/': div
 };
 
-wss.on('connection', function onConnection(ws) {
-  var id = nextid;
-  console.log('new connection: %s', id);
-  nextid++;
-  clients[id] = {client: ws, ops: []};
-
-  ws.on('message', function onMessage(message) {
-  	if(ops[message]) {
-      var result = ops[message](clients[id].ops);
-      ws.send(String(result));
-  	} else if (Number(message) !== NaN) {
-      clients[id].ops.push(Number(message));
-  	}
-
-    console.log('id: %s, op: %s', id, message);
-  });
-});
+wss.on('connection', onConnection);
 
 function plus(args) {
   return l.sum(args);
@@ -53,4 +37,30 @@ function div(args) {
     args,
     function(acc, n) { acc /= n; return acc; },
     l.head(args) * l.head(args));
+}
+
+function onConnection(ws) {
+  var id = nextid;
+  console.log('new connection: %s', id);
+  nextid++;
+  clients[id] = {client: ws, ops: []};
+
+  ws.on('message', function onMessage(message) {
+    if(ops[message]) {
+      var result = ops[message](clients[id].ops);
+      ws.send(String(result));
+    } else if (Number(message) !== NaN) {
+      clients[id].ops.push(Number(message));
+    }
+
+    console.log('id: %s, op: %s', id, message);
+  });
+}
+
+process.on('SIGTERM', handleRestart);
+process.on('SIGINT', handleRestart);
+
+function handleRestart() {
+  wss.close();
+  process.exit(0);
 }
