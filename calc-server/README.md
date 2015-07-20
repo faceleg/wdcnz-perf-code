@@ -17,7 +17,7 @@ free to tweak it (e.g. extend the scenario with more operations).
   - `minigun run test.json`
 2. Confirm that memory usage is growing under load, and that memory is not reclaimed by the GC.
   - Use `top` to monitor memory usage
-    - `top -pid $(pgrep -lfa node | grep server | awk '{print $1}')`
+    - `top -pid $(pgrep -lfa node | grep server.js | awk '{print $1}')`
   - Ensure that memory is not being reclaimed by forcing a collection
     - Run node with `--expose-gc` and `--trace-gc`
     - Add a `SIGUSR2` handler that will run `gc()`
