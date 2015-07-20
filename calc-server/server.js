@@ -41,9 +41,8 @@ function div(args) {
 
 function onConnection(ws) {
   var id = nextid;
-  console.log('new connection: %s', id);
   nextid++;
-  clients[id] = {client: ws, ops: []};
+  clients[id] = {connection: ws, ops: []};
 
   ws.on('message', function onMessage(message) {
     if(ops[message]) {
@@ -57,10 +56,13 @@ function onConnection(ws) {
   });
 }
 
-process.on('SIGTERM', handleRestart);
-process.on('SIGINT', handleRestart);
+process.on('SIGTERM', cleanup);
+process.on('SIGINT', cleanup);
 
-function handleRestart() {
-  wss.close();
+function cleanup() {
+  clients.forEach(function(client) {
+    client.connection.close();
+  });
+
   process.exit(0);
 }
