@@ -9,6 +9,8 @@ function startHttpServer(cb) {
 
   function whenReady() {
     console.log('Server listening on port', port);
+    console.log('Serving file: ', filePath);
+    console.log('Download file at: http://localhost:%d/download', port);
     cb();
   }
 }
