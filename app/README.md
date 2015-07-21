@@ -19,7 +19,9 @@ some usage scenarios might not be covered in the tests.
 1. Load testing — Create benchmarks
     - Script load generation for every endpoint
     - Measure response times; average and max
-3. Monitor resources:
+    - Throughput
+3. Monitor:
+    - Availability
     - Memory usage
     - CPU usage
     - Event loop delays
